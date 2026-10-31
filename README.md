@@ -1,6 +1,6 @@
-# open-imaging-stack
+# isp-3a-lab
 
-Open camera stack from RAW to a control loop.
+ISP pipeline + 3A + IQ lab, from RAW to a control loop.
 
 Same repo covers four job tracks:
 
