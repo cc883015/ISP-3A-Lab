@@ -1,0 +1,15 @@
+.DS_Store
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+output/
+c/bin/
+c/obj/
+*.o
+*.a
+*.dSYM/
