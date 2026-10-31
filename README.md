@@ -75,6 +75,9 @@ Chinese first, English second. If a rule says “language”, it means Python / 
 13. 生成的图和报告放 `output/`（已加入 gitignore）。  
     Generated images and reports go to `output/` (gitignored).
 
+14. 展示站在 `web/`。计算服务在 `apps/<tool>/`，必须调用 `python/`，不要重写 ΔE / SNR。厂商调试 API 用 `apps/<vendor>_<tool>/`。不要把网站丢进 `python/metrics/`。不要用 Streamlit 做展示站（不好迁到 Cloudflare Pages / 阿里云 OSS）。  
+    The showcase site is `web/`. Compute services live in `apps/<tool>/` and must call `python/` — do not reimplement ΔE / SNR. Vendor debug APIs go in `apps/<vendor>_<tool>/`. Do not drop a website into `python/metrics/`. Do not use Streamlit for the showcase (poor fit for Cloudflare Pages / Aliyun OSS).
+
 ---
 
 ## 目录 / Layout
@@ -92,6 +95,10 @@ python/robot/        标定、去畸变、运动曝光、时延
                      calibration, undistort, motion AE, latency
 python/embodied/     感知 → 决策 → 动作
                      perceive → act loop
+apps/                计算服务（IQ API 等），调用 python/
+                     compute services that call python/
+web/                 展示站（Vite + React），可迁 Cloudflare / 阿里云
+                     showcase site, portable static build
 c/                   C99：ISP / 3A / SNR
                      C99 library + demos
 data/                以后可放真实 RAW / 图卡
@@ -161,3 +168,30 @@ Do not edit the generic 3A files into vendor code.
    Mirror C under `c/src/platforms/<vendor>/` if you have a public C dump
 
 详见 / see `docs/platforms.md`。
+
+---
+
+## 展示站 / Showcase
+
+算法仓继续打磨 ISP / 3A。网页只负责把工具摊开。  
+This repo still grinds ISP / 3A. The site only presents the tools.
+
+本机 / local:
+
+```bash
+bash scripts/dev_showcase.sh
+```
+
+浏览器打开 http://127.0.0.1:5173  
+画质实验室调用的原理：CIE76 ΔE、块 SNR。见 `docs/principles/metrics.md`。  
+IQ lab principles: CIE76 ΔE and patch SNR. See `docs/principles/metrics.md`.
+
+技术栈与迁云：`docs/deploy.md`。  
+Stack and cloud move: `docs/deploy.md`.
+
+| 层 / Layer | 选型 / Choice | 原因 / Why |
+|---|---|---|
+| 展示 UI | Vite + React + TypeScript | 一份 `dist/`，Pages 或 OSS 都能放 |
+| IQ API | FastAPI | 直接 `import` 现有 Python 指标 |
+| 算法 | Python + C | 继续在 GitHub 打磨 |
+| 不选 / Avoid | Streamlit | 绑死 Python 进程，静态云不好迁 |

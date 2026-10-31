@@ -1,0 +1,16 @@
+---
+description: Issue, PR, and commit process for this lab repo
+alwaysApply: true
+---
+
+# GitHub issue / PR workflow
+
+For every discrete change in this repo:
+
+1. Open an **English** GitHub issue first. Implement on a branch. Open a PR. Link with `Closes #N`.
+2. Do not commit straight to `master` / `main` except for the initial bootstrap.
+3. Do not merge your own PR unless the user explicitly asks. Leave it for review.
+4. Commit as the repo owner's existing git identity only. Never set an AI / Cursor / Copilot / ChatGPT author or committer. Never run `git config`.
+5. Commit messages and PR / issue text: short, concrete, no AI filler, no mention of Cursor / Copilot / ChatGPT.
+6. PR body: what changed, how you checked it, a short manual checklist.
+7. Interactive tools (Streamlit, web apps) go in `apps/`. Algorithm code stays in `python/` and `c/`. The showcase frontend lives in `web/`.
